@@ -87,13 +87,16 @@ public class TestObjectTest {
 	@Test
 	public void processNumberTest_5and7_shouldReturn6and8() {
 		final String[] parameters = { "5", "7" };
+		final int[] returnedValues = { 5, 7 };
 		final int[] expected = { 6, 8 };
 
-		Mockito.when(mockDependency.parse(parameters[0])).thenReturn(5);
-		Mockito.when(mockDependency.parse(parameters[1])).thenReturn(8);
+		Mockito.when(mockDependency.parse(parameters[0])).thenReturn(
+				returnedValues[0]);
+		Mockito.when(mockDependency.parse(parameters[1])).thenReturn(
+				returnedValues[1]);
 
-		final int[] received = { mockDependency.parse(parameters[0]),
-				mockDependency.parse(parameters[1]) };
+		final int[] received = { testObjectImpl.processNumber(parameters[0]),
+				testObjectImpl.processNumber(parameters[1]) };
 
 		assertEquals("'5' should return 6", expected[0], received[0]);
 		assertEquals("'7' should return 8", expected[1], received[1]);
@@ -103,10 +106,18 @@ public class TestObjectTest {
 	public void processNumberTest_5and5_and5_shouldReturn6and6and6() {
 
 		final String parameter = "5";
-		final int expected = 6;
+		final int expected[] = { 6, 6, 6 };
 
 		// Each argument on .thenReturn() will be returned in order.
 		// The last argument will be used for subsequent calls.
 		Mockito.when(mockDependency.parse(parameter)).thenReturn(5, 5);
+
+		final int[] received = { testObjectImpl.processNumber(parameter),
+				testObjectImpl.processNumber(parameter),
+				testObjectImpl.processNumber(parameter) };
+
+		assertEquals("'5' should return 6", expected[0], received[0]);
+		assertEquals("'5' should return 6", expected[1], received[1]);
+		assertEquals("'5' should return 6", expected[2], received[2]);
 	}
 }
